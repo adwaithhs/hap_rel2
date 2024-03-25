@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk4roxpdq45yk"]
+
+[ext_resource type="Script" path="res://ui/title.gd" id="1_fuxsw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mol5l"]
+bg_color = Color(0.25098, 0.266667, 0.298039, 1)
+
+[node name="MarginContainer" type="MarginContainer"]
+offset_right = 65.0
+offset_bottom = 33.0
+theme_override_constants/margin_top = 10
+script = ExtResource("1_fuxsw")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mol5l")
+
+[node name="Label" type="Label" parent="PanelContainer"]
+layout_mode = 2
+text = "Title"
+horizontal_alignment = 1

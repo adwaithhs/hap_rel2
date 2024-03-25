@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3 uid="uid://clmc0kas4vg51"]
+
+[ext_resource type="Script" path="res://ui/form.gd" id="1_f8b7h"]
+[ext_resource type="Script" path="res://ui/select_pool.gd" id="1_uuaq8"]
+[ext_resource type="PackedScene" uid="uid://dk4roxpdq45yk" path="res://ui/title.tscn" id="2_ljnkq"]
+[ext_resource type="PackedScene" uid="uid://cihprd6qfxc4r" path="res://ui/str_input.tscn" id="3_bhe0e"]
+[ext_resource type="PackedScene" uid="uid://cy0m06w4lgue0" path="res://ui/num_input.tscn" id="4_idcy6"]
+[ext_resource type="PackedScene" uid="uid://3r6jw0u7e1tf" path="res://ui/button.tscn" id="5_2wpsq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0pjtx"]
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75oxe"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fkjwh"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3bhkq"]
+bg_color = Color(0.27451, 0.439216, 0.584314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebjhu"]
+bg_color = Color(0.27451, 0.439216, 0.584314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cme14"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[node name="PanelContainer" type="PanelContainer"]
+custom_minimum_size = Vector2(400, 400)
+theme_override_styles/panel = SubResource("StyleBoxFlat_0pjtx")
+script = ExtResource("1_uuaq8")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Pool"
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/guide_color = Color(0.129412, 0.14902, 0.180392, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_75oxe")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fkjwh")
+theme_override_styles/selected = SubResource("StyleBoxFlat_3bhkq")
+theme_override_styles/selected_focus = SubResource("StyleBoxFlat_ebjhu")
+item_count = 3
+item_0/text = "---New Pool---"
+item_1/text = "POOL2"
+item_2/text = "POOL1"
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cme14")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Form" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+script = ExtResource("1_f8b7h")
+
+[node name="Title" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("2_ljnkq")]
+layout_mode = 2
+text = "Pool"
+
+[node name="HBoxContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("3_bhe0e")]
+layout_mode = 2
+text = "Name:"
+value = "Pool"
+
+[node name="HBoxContainer2" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("4_idcy6")]
+layout_mode = 2
+key = "radius"
+text = "radius"
+value = 0.6
+
+[node name="HBoxContainer3" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("4_idcy6")]
+layout_mode = 2
+key = "min_dist"
+text = "min_dist"
+value = 0.2
+
+[node name="HBoxContainer4" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("4_idcy6")]
+layout_mode = 2
+key = "mult_r"
+text = "Mr"
+value = 1.0
+
+[node name="HBoxContainer5" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("4_idcy6")]
+layout_mode = 2
+key = "mult_g"
+text = "Mg"
+value = 1.0
+
+[node name="CenterContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("5_2wpsq")]
+layout_mode = 2
+
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="submitted" from="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" to="." method="_on_form_submitted"]

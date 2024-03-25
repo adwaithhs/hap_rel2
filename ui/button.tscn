@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://3r6jw0u7e1tf"]
+
+[ext_resource type="Script" path="res://ui/button.gd" id="1_auckx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qdjai"]
+bg_color = Color(0.184314, 0.2, 0.223529, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kbkaf"]
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[node name="CenterContainer" type="CenterContainer"]
+script = ExtResource("1_auckx")
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_qdjai")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kbkaf")
+text = "OK"
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]

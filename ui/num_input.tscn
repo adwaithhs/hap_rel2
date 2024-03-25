@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy0m06w4lgue0"]
+
+[ext_resource type="Script" path="res://ui/num_input.gd" id="1_3bops"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2v2t"]
+bg_color = Color(0.113725, 0.133333, 0.160784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udeje"]
+bg_color = Color(0.113725, 0.133333, 0.160784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aajxu"]
+bg_color = Color(0.113725, 0.133333, 0.160784, 1)
+
+[node name="HBoxContainer" type="HBoxContainer"]
+script = ExtResource("1_3bops")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "n"
+text_overrun_behavior = 3
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_h2v2t")
+theme_override_styles/focus = SubResource("StyleBoxFlat_udeje")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_aajxu")
+text = "100"

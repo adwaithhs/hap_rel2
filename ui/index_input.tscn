@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://d4hp4oqdh35yu"]
+
+[ext_resource type="Script" path="res://ui/index_input.gd" id="1_xm0up"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pf6g"]
+bg_color = Color(0.113725, 0.133333, 0.160784, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pvm3"]
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5qrbp"]
+bg_color = Color(0.227451, 0.243137, 0.270588, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qutsv"]
+bg_color = Color(0.113725, 0.133333, 0.160784, 1)
+
+[node name="IndexInput" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_5pf6g")
+script = ExtResource("1_xm0up")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LL" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6pvm3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5qrbp")
+text = "<<"
+
+[node name="L" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6pvm3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5qrbp")
+text = "<"
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_qutsv")
+text = "0"
+alignment = 1
+
+[node name="R" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6pvm3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5qrbp")
+text = ">"
+
+[node name="RR" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6pvm3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5qrbp")
+text = ">>"
+
+[connection signal="button_down" from="MarginContainer/HBoxContainer/LL" to="." method="_on_ll_button_down"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/L" to="." method="_on_l_button_down"]
+[connection signal="text_submitted" from="MarginContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/R" to="." method="_on_r_button_down"]
+[connection signal="button_down" from="MarginContainer/HBoxContainer/RR" to="." method="_on_rr_button_down"]

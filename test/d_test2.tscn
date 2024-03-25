@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjcckiir5avby"]
+
+[ext_resource type="Script" path="res://test/d_test2.gd" id="1_jr50a"]
+
+[node name="Origin" type="Node2D"]
+position = Vector2(576, 324)
+scale = Vector2(1, -1)
+script = ExtResource("1_jr50a")

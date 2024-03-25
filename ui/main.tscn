@@ -1,0 +1,261 @@
+[gd_scene load_steps=16 format=3 uid="uid://c62anea0j7c64"]
+
+[ext_resource type="Script" path="res://ui/main.gd" id="1_lna48"]
+[ext_resource type="Script" path="res://ui/figure.gd" id="2_nbtcq"]
+[ext_resource type="PackedScene" uid="uid://d4hp4oqdh35yu" path="res://ui/index_input.tscn" id="3_0wden"]
+[ext_resource type="Script" path="res://ui/form.gd" id="4_c53rv"]
+[ext_resource type="PackedScene" uid="uid://dk4roxpdq45yk" path="res://ui/title.tscn" id="5_m7sfr"]
+[ext_resource type="PackedScene" uid="uid://cihprd6qfxc4r" path="res://ui/str_input.tscn" id="6_62nu2"]
+[ext_resource type="PackedScene" uid="uid://cy0m06w4lgue0" path="res://ui/num_input.tscn" id="7_2pqtd"]
+[ext_resource type="PackedScene" uid="uid://3r6jw0u7e1tf" path="res://ui/button.tscn" id="8_gobog"]
+[ext_resource type="Texture2D" uid="uid://cuaf1wn2julsg" path="res://icon.svg" id="9_gnhyt"]
+[ext_resource type="PackedScene" uid="uid://clmc0kas4vg51" path="res://ui/select_pool.tscn" id="10_2e1us"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myuii"]
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6q4u"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3831q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_gnhyt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwf70"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4fe8p"]
+bg_color = Color(0.113725, 0.133333, 0.160784, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lna48")
+
+[node name="Figure" type="Node2D" parent="."]
+position = Vector2(576, 324)
+scale = Vector2(1, -1)
+script = ExtResource("2_nbtcq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 20
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="IndexInput" parent="MarginContainer/CenterContainer" instance=ExtResource("3_0wden")]
+layout_mode = 2
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 250.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_myuii")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer2/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f6q4u")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer2/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Form" type="VBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_c53rv")
+active = false
+
+[node name="Title" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("5_m7sfr")]
+layout_mode = 2
+text = "Pool"
+
+[node name="HBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("6_62nu2")]
+layout_mode = 2
+text = "Name:"
+value = "Pool"
+
+[node name="HBoxContainer2" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "radius"
+text = "radius"
+value = 0.6
+
+[node name="HBoxContainer3" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "min_dist"
+text = "min_dist"
+value = 0.2
+
+[node name="HBoxContainer4" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "mult_r"
+text = "mult_r"
+value = 1.0
+
+[node name="HBoxContainer5" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "mult_g"
+text = "mult_g"
+value = 1.0
+
+[node name="Form2" type="VBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_c53rv")
+
+[node name="Title" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form2" instance=ExtResource("5_m7sfr")]
+layout_mode = 2
+text = "Random"
+
+[node name="HBoxContainer2" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form2" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "n_chrms"
+text = "n_chrms"
+
+[node name="HBoxContainer3" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form2" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "n_gene"
+text = "n_gene"
+value = 25.0
+
+[node name="CenterContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form2" instance=ExtResource("8_gobog")]
+layout_mode = 2
+
+[node name="Form3" type="VBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_c53rv")
+
+[node name="Title" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("5_m7sfr")]
+layout_mode = 2
+text = "Step"
+
+[node name="HBoxContainer2" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "n_steps"
+text = "n_steps"
+value = 50.0
+
+[node name="HBoxContainer3" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "m_mut"
+text = "m_mut"
+value = 4.0
+
+[node name="HBoxContainer4" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "p"
+text = "p"
+value = 0.3
+
+[node name="HBoxContainer5" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "q"
+text = "q"
+value = 0.3
+
+[node name="HBoxContainer6" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "dx"
+text = "dx"
+value = 0.1
+
+[node name="HBoxContainer7" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "dw"
+text = "dw"
+value = 0.1
+
+[node name="HBoxContainer8" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "m_cross"
+text = "m_cross"
+value = 5.0
+
+[node name="HBoxContainer9" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "n_sel"
+text = "n_sel"
+
+[node name="CenterContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("8_gobog")]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer2"]
+visible = false
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PanelContainer2/CenterContainer"]
+layout_mode = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PanelContainer2/CenterContainer/Control"]
+sprite_frames = SubResource("SpriteFrames_3831q")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cwf70")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_4fe8p")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" parent="CenterContainer" instance=ExtResource("10_2e1us")]
+layout_mode = 2
+
+[connection signal="submitted" from="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form2" to="." method="_on_form_2_submitted"]
+[connection signal="submitted" from="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" to="." method="_on_form_3_submitted"]
