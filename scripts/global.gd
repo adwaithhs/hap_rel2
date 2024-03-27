@@ -1,6 +1,7 @@
 extends Node
 
 const TOL = 1e-6
+const PARALLEL = true
 
 var pool: Pool
 var i:= 1
@@ -23,9 +24,9 @@ func _ready():
 	mutex = Mutex.new()
 	semaphore = Semaphore.new()
 	exit_thread = false
-
-	thread = Thread.new()
-	thread.start(_thread_func, Thread.PRIORITY_HIGH)
+	if PARALLEL:
+		thread = Thread.new()
+		thread.start(_thread_func, Thread.PRIORITY_HIGH)
 	
 
 func set_i(j:int, end:= false):
@@ -100,6 +101,9 @@ func _thread_func():
 		mutex.unlock()
 
 func post(data: Dictionary) -> bool:
+	if not PARALLEL:
+		do_action(data)
+		return true
 	var flag = false
 	mutex.lock()
 	if post_data == null:
