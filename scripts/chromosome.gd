@@ -19,7 +19,6 @@ func to_dict():
 
 static func from_dict1(d):
 	var ch = Chromosome.new()
-	ch.distn = d.distn
 	for g in d.genes:
 		ch.genes.append(Gene.from_dict(g))
 	return ch
@@ -31,7 +30,9 @@ static func from_dict(d, rel: float):
 	ch.distn = {}
 	for n in d.distn:
 		ch.distn[int(n)] = d.distn[n]
-	ch.get_score_from_distn(rel)
+	var ret = ch.get_score_from_distn(rel)
+	if ret is String and ret == "error":
+		return "error"
 	return ch
 
 static func random(radius, n_genes) -> Chromosome:
@@ -125,13 +126,14 @@ func get_score_from_distn(rel: float):
 		total_area += area
 	if abs(total_area - 4.0) > 1e-6:
 		print("error in total area: ", total_area)
+		return "error"
 	
 	var gene_cost = 0
 	for gene in genes:
 		if gene.active:
 			gene_cost+=1
 	
-	score_r = sum_r / total_area
+	score_r = sum_r / 4.0
 	cost_g = gene_cost
 	score = [score_r, -cost_g]
 
@@ -143,8 +145,10 @@ func calc_score(radius: float, min_dist: float, rel: float):
 		return "error"
 	
 	calc_distn(radius)
-	get_score_from_distn(rel)
+	ret = get_score_from_distn(rel)
 	matrix = null
+	if ret is String and ret == "error":
+		return "error"
 
 func init_matrix(radius: float):
 	genes.sort_custom(func(a, b): return a.weight > b.weight)

@@ -67,7 +67,9 @@ static func from_dict(d):
 		var chs = d.chs_dict[j]
 		p.chs_dict[int(j)] = []
 		for ch in chs:
-			p.chs_dict[int(j)].append(Chromosome.from_dict(ch, p.rel))
+			var c = Chromosome.from_dict(ch, p.rel)
+			if not (c is String and c == "error"):
+				p.chs_dict[int(j)].append(c)
 	return p
 
 func save():

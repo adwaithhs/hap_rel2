@@ -6,6 +6,7 @@ const WIDTH = 4
 var size:= 150
 
 var radius:= 0.6
+var min_dist:= 0.2
 var ch:= Chromosome.new()
 var subset
 var progress = -1
@@ -18,9 +19,11 @@ var j
 func _ready():
 	#seed(162)
 	#ch = Chromosome.random(radius, 25)
-	#var f = FileAccess.open("res://saves/pools/"+"1709469176.4125", FileAccess.READ)
-	#var p = Pool.from_dict(JSON.parse_string(f.get_as_text()))
-	#ch = p.chromosomes[0] 
+	var f = FileAccess.open("res://saves/pools/Pool1000", FileAccess.READ)
+	var p = Pool.from_dict(JSON.parse_string(f.get_as_text()))
+	ch = p.chs_dict[9][0]
+	radius = p.radius
+	min_dist = p.min_dist
 	
 	#var f = FileAccess.open("res://saves/error_chs/1710514705.29849", FileAccess.READ)
 	#ch = Chromosome.from_dict1(JSON.parse_string(f.get_as_text()))
@@ -166,7 +169,17 @@ func test_ch_step():
 		return
 	print("progress: ", progress)
 	var g = ch.genes[progress]
+	g.active = false
 	print(g.center)
+	var flag = false
+	for j in progress:
+		if (g.center - ch.genes[j].center).length() < min_dist:
+			flag = true
+			break
+	if flag:
+		progress+=1
+		subset = null
+		return
 	var nbhood = ch.get_nbhd(g)
 	var needed = false
 	for node in nbhood:

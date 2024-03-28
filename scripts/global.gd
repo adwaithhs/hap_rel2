@@ -8,6 +8,7 @@ var j:= 25
 var main_scene
 
 var save_after_step:= true
+var save_after_each_step:= true
 signal ch_changed
 
 func _ready():
@@ -17,12 +18,14 @@ func _ready():
 
 func set_i(k: int):
 	if pool == null: return
+	if j not in pool.chs_dict: return
 	var n = len(pool.chs_dict[j])
 	i = clamp(k, 1, n)
 	ch_changed.emit()
 
 func change_i(k: int, inf:= false):
 	if pool == null: return
+	if j not in pool.chs_dict: return
 	var n = len(pool.chs_dict[j])
 	if inf:
 		if k > 0:
@@ -66,6 +69,8 @@ func change_j(k: int, inf:= false):
 func set_pool(p):
 	pool = p
 	main_scene.form.set_values(pool.to_dict2())
+	change_j(+1, true)
+	change_i(-1, true)
 	ch_changed.emit()
 
 func get_ch():
@@ -111,9 +116,11 @@ func do_action(data: Dictionary):
 				var ch2: Chromosome= chs1[k]
 				var ch = ch1.cross(ch2)
 				pool.add(ch)
+			pool.sort()
 			pool.select(data.n_sel)
-		pool.sort()
-		if save_after_step:
+			if save_after_each_step:
+				pool.save()
+		if save_after_step and not save_after_each_step:
 			pool.save()
 	
 	change_j(0)
