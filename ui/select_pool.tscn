@@ -101,18 +101,13 @@ value = 0.2
 
 [node name="HBoxContainer4" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("4_idcy6")]
 layout_mode = 2
-key = "mult_r"
-text = "Mr"
-value = 1.0
-
-[node name="HBoxContainer5" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("4_idcy6")]
-layout_mode = 2
-key = "mult_g"
-text = "Mg"
-value = 1.0
+key = "rel"
+text = "rel"
+value = 0.99
 
 [node name="CenterContainer" parent="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" instance=ExtResource("5_2wpsq")]
 layout_mode = 2
 
+[connection signal="item_activated" from="MarginContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_activated"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
 [connection signal="submitted" from="MarginContainer/VBoxContainer/PanelContainer/MarginContainer/Form" to="." method="_on_form_submitted"]

@@ -4,8 +4,7 @@ const DEF_POOL = {
 	"name": "POOL",
 	"radius": 0.6,
 	"min_dist": 0.2,
-	"mult_r": 2.0,
-	"mult_g": 3.0,
+	"rel": 0.99,
 }
 
 @onready
@@ -29,6 +28,7 @@ func refresh():
 		var d = JSON.parse_string(file.get_as_text())
 		if d == null:
 			continue
+		d["name"] = f
 		d["time"] = FileAccess.get_modified_time(path+f)
 		var flag = false
 		for k in DEF_POOL:
@@ -65,3 +65,11 @@ func _on_item_list_item_selected(index):
 	else:
 		form.set_active(false)
 		form.set_values(pools[index - 1])
+
+
+func _on_item_list_item_activated(index):
+	if index == 0: return
+	visible = false
+	get_parent().visible = false
+	var d = pools[index-1]
+	Global.set_pool(Pool.from_dict(d))

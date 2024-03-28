@@ -59,10 +59,19 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_bottom = 20
 
-[node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="IndexInput" parent="MarginContainer/CenterContainer" instance=ExtResource("3_0wden")]
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="IndexInput" parent="MarginContainer/VBoxContainer/CenterContainer" instance=ExtResource("3_0wden")]
+layout_mode = 2
+
+[node name="CenterContainer2" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="IndexInput" parent="MarginContainer/VBoxContainer/CenterContainer2" instance=ExtResource("3_0wden")]
 layout_mode = 2
 
 [node name="PanelContainer2" type="PanelContainer" parent="."]
@@ -124,15 +133,9 @@ value = 0.2
 
 [node name="HBoxContainer4" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
 layout_mode = 2
-key = "mult_r"
-text = "mult_r"
-value = 1.0
-
-[node name="HBoxContainer5" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
-layout_mode = 2
-key = "mult_g"
-text = "mult_g"
-value = 1.0
+key = "rel"
+text = "rel"
+value = 0.99
 
 [node name="Form2" type="VBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -168,7 +171,7 @@ text = "Step"
 layout_mode = 2
 key = "n_steps"
 text = "n_steps"
-value = 50.0
+value = 5.0
 
 [node name="HBoxContainer3" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
 layout_mode = 2
@@ -202,14 +205,15 @@ value = 0.1
 
 [node name="HBoxContainer8" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
 layout_mode = 2
-key = "m_cross"
-text = "m_cross"
-value = 5.0
+key = "n_cross"
+text = "n_cross"
+value = 500.0
 
 [node name="HBoxContainer9" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("7_2pqtd")]
 layout_mode = 2
 key = "n_sel"
 text = "n_sel"
+value = 5.0
 
 [node name="CenterContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form3" instance=ExtResource("8_gobog")]
 layout_mode = 2

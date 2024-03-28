@@ -3,10 +3,10 @@ extends RefCounted
 class_name Chromosome
 
 var genes:= []
-var score = null
 var matrix
 var n
 var distn = {}
+var score = null
 
 func to_dict():
 	var gs = []
@@ -24,12 +24,14 @@ static func from_dict1(d):
 		ch.genes.append(Gene.from_dict(g))
 	return ch
 
-static func from_dict(d, radius:=0.6, mult_r:=1.0, mult_g:=1.0):
+static func from_dict(d, rel: float):
 	var ch = Chromosome.new()
 	for g in d.genes:
 		ch.genes.append(Gene.from_dict(g))
-	ch.distn = d.distn
-	ch.get_score_from_distn(mult_r, mult_g)
+	ch.distn = {}
+	for n in d.distn:
+		ch.distn[int(n)] = d.distn[n]
+	ch.get_score_from_distn(rel)
 	return ch
 
 static func random(radius, n_genes) -> Chromosome:
@@ -113,13 +115,13 @@ func calc_distn(radius: float):
 					distn[n] = 0.0
 				distn[n] += sset.get_area(radius)
 
-func get_score_from_distn(mult_r:= 1.0, mult_g:= 1.0):
-	var mtbf_area = 0.0
-	var mtbf_getter = MTBFGetter.new()
+func get_score_from_distn(rel: float):
+	var f = 1 - rel
+	var sum_r = 0.0
 	var total_area = 0.0
 	for n in distn:
 		var area = distn[n]
-		mtbf_area += mtbf_getter.get_mtbf(n) * area
+		sum_r += (1- pow(f, n)) * area
 		total_area += area
 	if abs(total_area - 4.0) > 1e-6:
 		print("error in total area: ", total_area)
@@ -129,17 +131,19 @@ func get_score_from_distn(mult_r:= 1.0, mult_g:= 1.0):
 		if gene.active:
 			gene_cost+=1
 	
-	score_r = mtbf_area / total_area * mult_r
-	cost_g = gene_cost * mult_g
-	score = score_r - cost_g
+	score_r = sum_r / total_area
+	cost_g = gene_cost
+	score = [score_r, -cost_g]
 
-func calc_score(radius: float, min_dist: float, mult_r:= 1.0, mult_g:= 1.0):
+func calc_score(radius: float, min_dist: float, rel: float):
+	if score != null:
+		return
 	var ret = dissect(radius, min_dist)
 	if ret is String and ret == "error":
 		return "error"
 	
 	calc_distn(radius)
-	get_score_from_distn(mult_r, mult_g)
+	get_score_from_distn(rel)
 	matrix = null
 
 func init_matrix(radius: float):

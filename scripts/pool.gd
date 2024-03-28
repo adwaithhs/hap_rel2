@@ -7,51 +7,46 @@ signal chs_changed
 var name:= ""
 var radius:= 0.6
 var min_dist:= 0.2
-var chromosomes:= []
-
-var mult_r:= 1.0
-var mult_g:= 1.0
+var rel:= 0.99
+var chs_dict:= {}
 
 
-# no need to protect chromosomes
-# subthread only use them before this
-# main thread use them after this
-func add(ch: Chromosome, mutex: Mutex):
-	if ch.calc_score(radius, min_dist, mult_r, mult_g) == "error":
+func add(ch: Chromosome):
+	if ch.calc_score(radius, min_dist, rel) == "error":
 		var t = Time.get_unix_time_from_system()
 		var file = FileAccess.open("res://saves/error_chs/"+str(t), FileAccess.WRITE)
 		file.store_string(JSON.stringify(ch.to_dict(), "	"))
 		return
-	var chs = chromosomes
-	var i = len(chs)
-	var done = false
-	while i > 0:
-		i-=1
-		if ch.score < chs[i].score:
-			mutex.lock()
-			chs.insert(i+1, ch)
-			mutex.unlock()
-			done = true
-			break
-	if not done:
-		mutex.lock()
-		chs.insert(0, ch)
-		mutex.unlock()
+	var n = ch.cost_g
+	if n not in chs_dict:
+		chs_dict[n] = []
+	var chs = chs_dict[n]
+	chs.append(ch)
+
 
 func sort():
-	chromosomes.sort_custom(func (a, b): return a.score > b.score)
+	for chs in chs_dict.values():
+		chs.sort_custom(func (a, b): return a.score_r > b.score_r)
+
+func select(n: int):
+	for chs in chs_dict.values():
+		if len(chs) > n:
+			chs.resize(n)
+	pass
 
 func to_dict():
-	var chs = []
-	for ch in chromosomes:
-		chs.append(ch.to_dict())
+	var chs_d = {}
+	for i in chs_dict:
+		var chs = []
+		for ch in chs_dict[i]:
+			chs.append(ch.to_dict())
+		chs_d[i] = chs
 	return {
 		"name": name,
 		"radius": radius,
-		"chromosomes": chs,
 		"min_dist": min_dist,
-		"mult_r": mult_r,
-		"mult_g": mult_g,
+		"rel": rel,
+		"chs_dict": chs_d,
 	}
 
 func to_dict2():
@@ -59,20 +54,22 @@ func to_dict2():
 		"name": name,
 		"radius": radius,
 		"min_dist": min_dist,
-		"mult_r": mult_r,
-		"mult_g": mult_g,
+		"rel": rel,
 	}
 
 static func from_dict(d):
 	var p = Pool.new()
+	p.name = d.name
 	p.radius = d.radius
-	for ch in d.chromosomes:
-		p.chromosomes.append(Chromosome.from_dict(ch, p.radius, p.mult_r, p.mult_g))
+	p.min_dist = d.min_dist
+	p.rel = d.rel
+	for j in d.chs_dict:
+		var chs = d.chs_dict[j]
+		p.chs_dict[int(j)] = []
+		for ch in chs:
+			p.chs_dict[int(j)].append(Chromosome.from_dict(ch, p.rel))
 	return p
 
 func save():
 	var file = FileAccess.open("res://saves/pools/"+name, FileAccess.WRITE)
-	Global.mutex.lock()
-	var d = to_dict()
-	Global.mutex.unlock()
-	file.store_string(JSON.stringify(d, "	"))
+	file.store_string(JSON.stringify(to_dict(), "	"))
