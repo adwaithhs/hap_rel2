@@ -6,6 +6,7 @@ var pool: Pool
 var i:= 1
 var j:= 25
 var main_scene
+var d_test_scene
 
 var save_after_step:= true
 var save_after_each_step:= true
@@ -82,9 +83,9 @@ func get_ch():
 
 var debug:= false
 
-func log(s: String):
+func log(s1="", s2="", s3="", s4=""):
 	if debug:
-		print(s)
+		print(s1, s2, s3, s4)
 
 func do_action(data: Dictionary):
 	if data.key == "random":

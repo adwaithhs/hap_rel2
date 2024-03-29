@@ -16,33 +16,39 @@ var i_set = 0
 var i
 var j
 
+var hide_inactive:= false
+
 func _ready():
+	Global.d_test_scene = self
 	#seed(162)
 	#ch = Chromosome.random(radius, 25)
-	var f = FileAccess.open("res://saves/pools/Pool1000", FileAccess.READ)
-	var p = Pool.from_dict(JSON.parse_string(f.get_as_text()))
-	ch = p.chs_dict[9][0]
-	radius = p.radius
-	min_dist = p.min_dist
+	
+	#var f = FileAccess.open("res://saves/pools/Pool1000", FileAccess.READ)
+	#var p = Pool.from_dict(JSON.parse_string(f.get_as_text()))
+	#ch = p.chs_dict[9][0]
+	#radius = p.radius
+	#min_dist = p.min_dist
 	
 	#var f = FileAccess.open("res://saves/error_chs/1710514705.29849", FileAccess.READ)
 	#ch = Chromosome.from_dict1(JSON.parse_string(f.get_as_text()))
 	
-	#var i = 0
-	#for c in [
-		#Vector2(0.033197, -0.10739),
-		#Vector2(-0.892373, -0.061342),
-		#Vector2(0.088837, -0.743163),
-	#]:
-		#var g = Gene.new()
-		#g.center = c
-		#g.weight = i
-		#i -= 1
-		#ch.genes.append(g)
+	var i = 0
+	for c in [
+		Vector2(-0.514971, -0.600106),
+		Vector2(0.448137, -0.756181),
+	]:
+		var g = Gene.new()
+		g.center = c
+		g.weight = i
+		i -= 1
+		ch.genes.append(g)
 	pass
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed():
+		if event.keycode == KEY_H:
+			hide_inactive = not hide_inactive
+			queue_redraw()
 		if event.keycode == KEY_Z:
 			progress = -1
 			subset = null
@@ -55,7 +61,7 @@ func _input(event):
 			progress = -1
 			subset = null
 			i_set = 0
-			while progress < 22:
+			while progress < 20:
 				test_ch_step()
 			queue_redraw()
 	
@@ -98,7 +104,7 @@ func _draw():
 		var g = ch.genes[h]
 		if g.active:
 			my_draw_circle(g.center*size, radius*size)
-		else:
+		elif not hide_inactive:
 			my_draw_circle(g.center*size, radius*size, Color.MAGENTA)
 
 	if subset == null:

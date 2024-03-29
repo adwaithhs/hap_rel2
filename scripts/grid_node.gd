@@ -37,6 +37,7 @@ func slice(g: Gene, radius: float):
 	var center = g.center
 	newsubs = []
 	var needed = false
+	
 	for f in len(subsets):
 		var sset = subsets[f]
 		var int_comps = []
@@ -49,25 +50,34 @@ func slice(g: Gene, radius: float):
 				var edge = comp[i]
 				var arr = edge.split(center, radius, i)
 				ps.append_array(arr)
-			
+			Global.debug = false
+			var progress = -1
+			if Global.d_test_scene: progress = Global.d_test_scene.progress
+			if (
+				progress == 1 and
+				pos == Vector2i(2, 2) and
+				f == 0
+			):
+				Global.debug = true
 			ps.sort_custom(func (a, b): return a.angle < b.angle)
-			#print("pos: ", pos)
-			#print("f: ", f)
-			#print("h: ", h)
-			#print("comp----")
-			#for e in comp:
-				#e.print()
+			Global.log("pos: ", pos)
+			Global.log("f: ", f)
+			Global.log("h: ", h)
+			Global.log("comp----")
+			for e in comp:
+				if Global.debug:
+					e.print()
 			
-			#print("st------")
-			#var st = ""
-			#for p in ps:
-				#st += str(p.i) + " "
-			#print(st)
+			Global.log("st------")
+			var st = ""
+			for p in ps:
+				st += str(p.i) + " "
+			Global.log(st)
 			ps = merge_points(ps, comp)
-			#st = ""
-			#for p in ps:
-				#st += str(p.i) + " "
-			#print(st)
+			st = ""
+			for p in ps:
+				st += str(p.i) + " "
+			Global.log(st)
 			if len(ps) == 0:
 				if is_circle_outside(comp, center, radius):
 					ext_comps.append(comp)
@@ -89,7 +99,7 @@ func slice(g: Gene, radius: float):
 					break
 			var compi = []
 			var compes = []
-			#print("k: ", k)
+			Global.log("k: ", k)
 			if k == -1: # only IN_IN, only when radius = 1
 				for i in len(ps):
 					var u1 = ps[i-1]

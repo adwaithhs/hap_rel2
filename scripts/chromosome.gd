@@ -122,6 +122,9 @@ func get_score_from_distn(rel: float):
 	var total_area = 0.0
 	for n in distn:
 		var area = distn[n]
+		if area < 0:
+			print("negative area")
+			return "error"
 		sum_r += (1- pow(f, n)) * area
 		total_area += area
 	if abs(total_area - 4.0) > 1e-6:

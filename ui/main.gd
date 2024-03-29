@@ -54,9 +54,11 @@ func _input(event):
 			if Global.pool:
 				Global.pool.save()
 		if event.keycode == KEY_P:
+			if Global.pool == null: return
+			for j in Global.pool.chs_dict:
+				print(j, ", ", Global.pool.chs_dict[j][0].score_r)
 			var ch = Global.get_ch()
 			if ch == null: return
-			print()
 
 
 func _on_form_2_submitted():
