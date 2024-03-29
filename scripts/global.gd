@@ -21,6 +21,8 @@ func _ready():
 	var s = randi_range(0, 1000)
 	print("seed: ", s)
 	seed(s)
+
+func init():
 	mutex = Mutex.new()
 	semaphore = Semaphore.new()
 	exit_thread = false

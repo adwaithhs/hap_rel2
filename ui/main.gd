@@ -16,6 +16,7 @@ var label = $PanelContainer/MarginContainer/Label
 func _ready():
 	Global.main_scene = self
 	Global.ch_changed.connect(on_ch_changed)
+	Global.init()
 
 func on_ch_changed():
 	figure.queue_redraw()
