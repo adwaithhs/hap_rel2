@@ -207,17 +207,14 @@ func dissect(radius: float, min_dist: float):
 		if flag:
 			continue
 		var nbhood = get_nbhd(g)
-		var needed = false
 		for node in nbhood:
 			var ret = node.slice(g, radius)
 			if ret is String and ret == "error":
 				return "error"
-			if ret:
-				needed = true
-		if needed:
-			g.active = true
-			for node in nbhood:
-				node.subsets = node.newsubs
+		
+		g.active = true
+		for node in nbhood:
+			node.subsets = node.newsubs
 		for node in nbhood:
 			node.newsubs = []
 
