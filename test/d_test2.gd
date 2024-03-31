@@ -23,25 +23,25 @@ func _ready():
 	#seed(162)
 	#ch = Chromosome.random(radius, 25)
 	
-	#var f = FileAccess.open("res://saves/pools/Pool1000", FileAccess.READ)
-	#var p = Pool.from_dict(JSON.parse_string(f.get_as_text()))
-	#ch = p.chs_dict[9][0]
-	#radius = p.radius
-	#min_dist = p.min_dist
+	var f = FileAccess.open("res://saves/pools/PoolA", FileAccess.READ)
+	var p = Pool.from_dict(JSON.parse_string(f.get_as_text()))
+	ch = p.chs_dict[9][0]
+	radius = p.radius
+	min_dist = p.min_dist
 	
 	#var f = FileAccess.open("res://saves/error_chs/1710514705.29849", FileAccess.READ)
 	#ch = Chromosome.from_dict1(JSON.parse_string(f.get_as_text()))
 	
-	var i = 0
-	for c in [
-		Vector2(-0.514971, -0.600106),
-		Vector2(0.448137, -0.756181),
-	]:
-		var g = Gene.new()
-		g.center = c
-		g.weight = i
-		i -= 1
-		ch.genes.append(g)
+	#var i = 0
+	#for c in [
+		#Vector2(-0.514971, -0.600106),
+		#Vector2(0.448137, -0.756181),
+	#]:
+		#var g = Gene.new()
+		#g.center = c
+		#g.weight = i
+		#i -= 1
+		#ch.genes.append(g)
 	pass
 
 func _input(event):
@@ -133,14 +133,14 @@ func my_draw_arc(center: Vector2, radius: float, v1: Vector2, v2: Vector2, color
 	if th < 0:
 		th+=2*PI
 	var ps = []
-	var n = 20
+	var n = 100
 	for i in n+1:
 		ps.append(center + v1.rotated(i*th/n))
 	draw_polyline(ps, color, width)
 
 func my_draw_circle(center: Vector2, radius: float, color:= Color.RED, width:= WIDTH):
 	var ps = []
-	var n = 20
+	var n = 100
 	for i in n+1:
 		ps.append(center + radius*Vector2.UP.rotated(2*PI*i/n))
 	draw_polyline(ps, color, width)
@@ -187,17 +187,17 @@ func test_ch_step():
 		subset = null
 		return
 	var nbhood = ch.get_nbhd(g)
-	var needed = false
+	#var needed = false
 	for node in nbhood:
 		var ret = node.slice(g, radius)
 		if ret is String and ret == "error":
 			print("error")
-		elif ret:
-			needed = true
-	if needed:
-		g.active = true
-		for node in nbhood:
-			node.subsets = node.newsubs
+		#elif ret:
+			#needed = true
+	#if needed:
+	g.active = true
+	for node in nbhood:
+		node.subsets = node.newsubs
 	for node in nbhood:
 		node.newsubs = []
 	progress+=1
