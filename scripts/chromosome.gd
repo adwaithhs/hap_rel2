@@ -17,19 +17,16 @@ func to_dict():
 		"distn": distn
 	}
 
-static func from_dict1(d):
-	var ch = Chromosome.new()
-	ch.distn = d.distn
-	for g in d.genes:
-		ch.genes.append(Gene.from_dict(g))
-	return ch
-
-static func from_dict(d, radius:=0.6, mult_r:=1.0, mult_g:=1.0):
+static func from_dict(d, rel: float, mult_r: float, mult_g: float):
 	var ch = Chromosome.new()
 	for g in d.genes:
 		ch.genes.append(Gene.from_dict(g))
-	ch.distn = d.distn
-	ch.get_score_from_distn(mult_r, mult_g)
+	ch.distn = {}
+	for n in d.distn:
+		ch.distn[int(n)] = d.distn[n]
+	var ret = ch.get_score_from_distn(rel, mult_r, mult_g)
+	if ret is String and ret == "error":
+		return "error"
 	return ch
 
 static func random(radius, n_genes) -> Chromosome:
@@ -113,33 +110,41 @@ func calc_distn(radius: float):
 					distn[n] = 0.0
 				distn[n] += sset.get_area(radius)
 
-func get_score_from_distn(mult_r:= 1.0, mult_g:= 1.0):
-	var mtbf_area = 0.0
-	var mtbf_getter = MTBFGetter.new()
+func get_score_from_distn(rel: float, mult_r: float, mult_g: float):
+	var f = 1 - rel
+	var sum_r = 0.0
 	var total_area = 0.0
 	for n in distn:
 		var area = distn[n]
-		mtbf_area += mtbf_getter.get_mtbf(n) * area
+		if area < 0:
+			print("negative area")
+			return "error"
+		sum_r += (1- pow(f, n)) * area
 		total_area += area
 	if abs(total_area - 4.0) > 1e-6:
 		print("error in total area: ", total_area)
+		return "error"
 	
 	var gene_cost = 0
 	for gene in genes:
 		if gene.active:
 			gene_cost+=1
 	
-	score_r = mtbf_area / total_area * mult_r
+	score_r = sum_r / total_area * mult_r
 	cost_g = gene_cost * mult_g
 	score = score_r - cost_g
 
-func calc_score(radius: float, min_dist: float, mult_r:= 1.0, mult_g:= 1.0):
+func calc_score(radius: float, min_dist: float, rel: float, mult_r: float, mult_g: float):
+	if score != null:
+		return
 	var ret = dissect(radius, min_dist)
 	if ret is String and ret == "error":
 		return "error"
 	
 	calc_distn(radius)
-	get_score_from_distn(mult_r, mult_g)
+	ret = get_score_from_distn(rel, mult_r, mult_g)
+	if ret is String and ret == "error":
+		return "error"
 	matrix = null
 
 func init_matrix(radius: float):
@@ -196,17 +201,17 @@ func dissect(radius: float, min_dist: float):
 		if flag:
 			continue
 		var nbhood = get_nbhd(g)
-		var needed = false
+		#var needed = false
 		for node in nbhood:
 			var ret = node.slice(g, radius)
 			if ret is String and ret == "error":
 				return "error"
-			if ret:
-				needed = true
-		if needed:
-			g.active = true
-			for node in nbhood:
-				node.subsets = node.newsubs
+			#if ret:
+				#needed = true
+		#if needed:
+		g.active = true
+		for node in nbhood:
+			node.subsets = node.newsubs
 		for node in nbhood:
 			node.newsubs = []
 

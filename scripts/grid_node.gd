@@ -51,23 +51,8 @@ func slice(g: Gene, radius: float):
 				ps.append_array(arr)
 			
 			ps.sort_custom(func (a, b): return a.angle < b.angle)
-			#print("pos: ", pos)
-			#print("f: ", f)
-			#print("h: ", h)
-			#print("comp----")
-			#for e in comp:
-				#e.print()
-			
-			#print("st------")
-			#var st = ""
-			#for p in ps:
-				#st += str(p.i) + " "
-			#print(st)
 			ps = merge_points(ps, comp)
-			#st = ""
-			#for p in ps:
-				#st += str(p.i) + " "
-			#print(st)
+			
 			if len(ps) == 0:
 				if is_circle_outside(comp, center, radius):
 					ext_comps.append(comp)
@@ -89,7 +74,6 @@ func slice(g: Gene, radius: float):
 					break
 			var compi = []
 			var compes = []
-			#print("k: ", k)
 			if k == -1: # only IN_IN, only when radius = 1
 				for i in len(ps):
 					var u1 = ps[i-1]

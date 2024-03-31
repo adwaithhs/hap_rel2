@@ -122,17 +122,23 @@ key = "min_dist"
 text = "min_dist"
 value = 0.2
 
+[node name="HBoxContainer6" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
+layout_mode = 2
+key = "rel"
+text = "rel"
+value = 0.99
+
 [node name="HBoxContainer4" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
 layout_mode = 2
 key = "mult_r"
 text = "mult_r"
-value = 1.0
+value = 1000.0
 
 [node name="HBoxContainer5" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form" instance=ExtResource("7_2pqtd")]
 layout_mode = 2
 key = "mult_g"
 text = "mult_g"
-value = 1.0
+value = 0.25
 
 [node name="Form2" type="VBoxContainer" parent="PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

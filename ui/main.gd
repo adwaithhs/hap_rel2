@@ -11,6 +11,10 @@ var figure = $Figure
 @onready
 var index_input = $MarginContainer/CenterContainer/IndexInput
 @onready
+var left_dock = $PanelContainer2
+@onready
+var right_dock = $PanelContainer
+@onready
 var label = $PanelContainer/MarginContainer/Label
 
 func _ready():
@@ -32,9 +36,16 @@ func on_ch_changed():
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed():
-		if event.keycode == KEY_H: # TODO
-			index_input.visible = not index_input.visible
-			label.visible = not label.visible
+		if event.keycode == KEY_H:
+			var v = not left_dock.visible
+			index_input.visible = v
+			left_dock.visible = v
+			right_dock.visible = v
+		if event.keycode == KEY_S:
+			Global.mutex.lock()
+			if Global.in_action and Global.pool:
+				Global.pool.save()
+			Global.mutex.unlock()
 		if event.keycode == KEY_P:
 			var ch = Global.get_ch()
 			if ch == null: return

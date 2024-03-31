@@ -5,9 +5,6 @@ class_name Subset
 var comps:= []
 var genes:= []
 
-func get_fail(f:=0.9):
-	return pow(f, len(genes))
-
 func get_mult():
 	return len(genes)
 

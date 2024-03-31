@@ -14,7 +14,7 @@ var exit_thread := false
 var dirty:= true
 
 var post_data
-var save_after_step:= true
+var save_after_each_step:= true
 signal ch_changed
 
 func _ready():
@@ -43,11 +43,11 @@ func set_i(j:int, end:= false):
 func set_pool(p):
 	pool = p
 	main_scene.form.set_values(pool.to_dict2())
-	#do_action({
-		#"key": "random",
-		#"n_chrms": 100,
-		#"n_gene": 25,
-	#})
+	var old_i = i
+	set_i(i)
+	if i != old_i:
+		main_scene.index_input.refresh()
+	ch_changed.emit()
 
 func get_ch():
 	if pool == null: return null
@@ -74,11 +74,13 @@ func _process(delta):
 		return
 	mutex.lock()
 	var d = dirty
+	dirty = false
 	mutex.unlock()
 	if d:
-		if main_scene:
-			main_scene.index_input.refresh()
+		var old_i = i
 		set_i(i)
+		if i != old_i and main_scene != null:
+			main_scene.index_input.refresh()
 		ch_changed.emit()
 
 func _thread_func():
@@ -115,18 +117,20 @@ func post(data: Dictionary) -> bool:
 	if flag:
 		semaphore.post()
 	return flag
-
+var in_action:= false
 func do_action(data: Dictionary):
+	mutex.lock()
+	in_action = true
+	mutex.unlock()
+	print("action: ", data.key)
+	var start = Time.get_ticks_msec()
 	if data.key == "random":
-		#var start = Time.get_ticks_msec()
 		for i in data.n_chrms:
 			var ch = Chromosome.random(pool.radius, data.n_gene)
 			pool.add(ch, mutex)
 			mutex.lock()
 			dirty = true
 			mutex.unlock()
-		#var stop = Time.get_ticks_msec()
-		#print(stop - start)
 	if data.key == "step":
 		#mutex.lock()
 		#var n = len(pool.chromosomes)
@@ -157,10 +161,17 @@ func do_action(data: Dictionary):
 				mutex.unlock()
 			mutex.lock()
 			pool.chromosomes.resize(data.n_sel)
+			if save_after_each_step:
+				pool.save()
 			dirty = true
 			mutex.unlock()
-		if save_after_step:
-			pool.save()
+			
+	
+	var stop = Time.get_ticks_msec()
+	print("time taken: ", (stop - start)/1000.0)
+	mutex.lock()
+	in_action = false
+	mutex.unlock()
 
 #func _exit_tree():
 	#mutex.lock()
