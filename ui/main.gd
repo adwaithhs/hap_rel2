@@ -1,5 +1,7 @@
 extends Control
 
+class_name MainScene
+
 @onready
 var form = $PanelContainer2/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/Form
 @onready
@@ -16,6 +18,8 @@ var left_dock = $PanelContainer2
 var right_dock = $PanelContainer
 @onready
 var label = $PanelContainer/MarginContainer/Label
+@onready
+var left_loading = $PanelContainer2/CenterContainer
 
 func _ready():
 	Global.main_scene = self

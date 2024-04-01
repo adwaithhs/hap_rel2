@@ -5,7 +5,7 @@ const PARALLEL = true
 
 var pool: Pool
 var i:= 1
-var main_scene
+var main_scene: MainScene
 
 var mutex: Mutex
 var semaphore: Semaphore
@@ -102,6 +102,7 @@ func _thread_func():
 		
 		mutex.lock()
 		post_data = null
+		main_scene.left_loading.call_deferred("hide")
 		mutex.unlock()
 
 func post(data: Dictionary) -> bool:
@@ -113,6 +114,7 @@ func post(data: Dictionary) -> bool:
 	if post_data == null:
 		post_data = data.duplicate()
 		flag = true
+	main_scene.left_loading.visible = true
 	mutex.unlock()
 	if flag:
 		semaphore.post()

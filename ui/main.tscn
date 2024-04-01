@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c62anea0j7c64"]
+[gd_scene load_steps=15 format=3 uid="uid://c62anea0j7c64"]
 
 [ext_resource type="Script" path="res://ui/main.gd" id="1_lna48"]
 [ext_resource type="Script" path="res://ui/figure.gd" id="2_nbtcq"]
@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cihprd6qfxc4r" path="res://ui/str_input.tscn" id="6_62nu2"]
 [ext_resource type="PackedScene" uid="uid://cy0m06w4lgue0" path="res://ui/num_input.tscn" id="7_2pqtd"]
 [ext_resource type="PackedScene" uid="uid://3r6jw0u7e1tf" path="res://ui/button.tscn" id="8_gobog"]
-[ext_resource type="Texture2D" uid="uid://cuaf1wn2julsg" path="res://icon.svg" id="9_gnhyt"]
+[ext_resource type="Script" path="res://ui/loading.gd" id="9_p4ag5"]
 [ext_resource type="PackedScene" uid="uid://clmc0kas4vg51" path="res://ui/select_pool.tscn" id="10_2e1us"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myuii"]
@@ -16,17 +16,6 @@ bg_color = Color(0.211765, 0.239216, 0.290196, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6q4u"]
 bg_color = Color(0.129412, 0.14902, 0.180392, 1)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_3831q"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("9_gnhyt")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwf70"]
 bg_color = Color(0.129412, 0.14902, 0.180392, 1)
@@ -226,9 +215,7 @@ layout_mode = 2
 
 [node name="Control" type="Control" parent="PanelContainer2/CenterContainer"]
 layout_mode = 2
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PanelContainer2/CenterContainer/Control"]
-sprite_frames = SubResource("SpriteFrames_3831q")
+script = ExtResource("9_p4ag5")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
