@@ -59,6 +59,27 @@ func _input(event):
 				print(j, ", ", Global.pool.chs_dict[j][0].score_r)
 			var ch = Global.get_ch()
 			if ch == null: return
+			var s_x = 0.0
+			var s_y = 0.0
+			var s_x2 = 0.0
+			var s_xy = 0.0
+			var n = 0
+			for x in Global.pool.chs_dict:
+				if x > 20: continue
+				var score = Global.pool.chs_dict[x][0].score_r
+				var y = log(1-score) / log(1-Global.pool.rel)
+				s_x += x
+				s_y += y
+				s_x2 += x*x
+				s_xy += x*y
+				n+=1
+			# y = ax + b
+			var c = n*s_x2 - s_x*s_x
+			if c == 0: return
+			var a = (n*s_xy - s_x*s_y) / c
+			var b = (s_y*s_x2 - s_xy*s_x) / c
+			print(a)
+			print(b)
 
 
 func _on_form_2_submitted():
